@@ -129,41 +129,44 @@ export const ActiveGame = () => {
     firstPlayerMark,
     secondPlayerMark,
     scores,
-    currentStep
+    currentStep,
+    isFinished
   } = useSelector((state: RootState) => state.GameReducer);
   const [minimax] = useState(() => new Minimax(board, firstPlayerMark, secondPlayerMark));
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const { status, result } = isVictory(board, scores, firstPlayerMark, gameMode);
-    if (status) {
-      dispatch(setGameResults(result));
+    if (!isFinished) {
+      const { status, result } = isVictory(board, scores, firstPlayerMark, gameMode);
+      if (status) {
+        dispatch(setGameResults(result));
 
-    } else if (isTie(board, scores, firstPlayerMark, gameMode)) {
-      const data = {
-        scores,
-        notification: {
-          message: '',
-          subtitle: 'Round Tied',
-          icon: null,
-        },
-        status: GameStatus.ROUND_TIED
-      };
+      } else if (isTie(board, scores, firstPlayerMark, gameMode)) {
+        const data = {
+          scores,
+          notification: {
+            message: '',
+            subtitle: 'Round Tied',
+            icon: null,
+          },
+          status: GameStatus.ROUND_TIED
+        };
 
-      data.scores.tie++;
-      dispatch(setGameResults(data));
+        data.scores.tie++;
+        dispatch(setGameResults(data));
 
-    } else if ((gameMode === 'singlePlayer' && currentStep === secondPlayerMark)
-      && (!status && !isTie(board, scores, firstPlayerMark, gameMode))) {
-      const promise = new Promise<any>(resolve => {
-        setTimeout(() => {
-          resolve(minimax.findBestMove(board));
-        }, 200);
-      });
+      } else if ((gameMode === 'singlePlayer' && currentStep === secondPlayerMark)
+        && (!status && !isTie(board, scores, firstPlayerMark, gameMode))) {
+        const promise = new Promise<any>(resolve => {
+          setTimeout(() => {
+            resolve(minimax.findBestMove(board));
+          }, 200);
+        });
 
-      promise.then(result => {
-        dispatch(updateBoard({ row: result.row, col: result.col, value: currentStep }));
-      });
+        promise.then(result => {
+          dispatch(updateBoard({ row: result.row, col: result.col, value: currentStep }));
+        });
+      }
     }
 
   }, [board]);

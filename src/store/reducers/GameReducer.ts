@@ -33,12 +33,18 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 ) => {
 	switch (action.type) {
 		case ACTIONS.START_GAME:
+			localStorage.setItem('gameMode', action.payload);
+			localStorage.setItem('hasStarted', 'true');
+			localStorage.setItem('firstPlayerMark', state.firstPlayerMark);
+
 			return {
 				...state,
 				gameMode: action.payload,
 				hasStarted: true,
 			};
 		case ACTIONS.SET_PLAYER_MARK:
+			localStorage.setItem('firstPlayerMark', action.payload);
+
 			return {
 				...state,
 				firstPlayerMark: action.payload,
@@ -54,6 +60,12 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 					}),
 				});
 
+				localStorage.setItem('board', JSON.stringify(updatedBoard));
+				localStorage.setItem(
+					'currentStep',
+					state.currentStep === 'cross' ? 'toe' : 'cross'
+				);
+
 				return {
 					...state,
 					board: updatedBoard,
@@ -66,6 +78,13 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 			};
 		case ACTIONS.SET_GAME_RESULTS:
 			const { scores, notification, status } = action.payload;
+			localStorage.setItem(
+				'scores',
+				JSON.stringify(scores ? scores : state.scores)
+			);
+			localStorage.setItem('isFinished', 'true');
+			localStorage.setItem('notification', JSON.stringify(notification));
+			localStorage.setItem('status', status);
 
 			return {
 				...state,
@@ -75,6 +94,17 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 				status: status,
 			};
 		case ACTIONS.NEXT_ROUND:
+			localStorage.setItem(
+				'board',
+				JSON.stringify([
+					['', '', ''],
+					['', '', ''],
+					['', '', ''],
+				])
+			);
+			localStorage.setItem('isFinished', 'false');
+			localStorage.setItem('currentStep', 'cross');
+
 			return {
 				...state,
 				board: [
@@ -83,7 +113,6 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 					['', '', ''],
 				],
 				isFinished: false,
-				resetRound: false,
 				currentStep: 'cross',
 			};
 		case ACTIONS.RESET_ROUND:
@@ -98,12 +127,37 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 				isFinished: false,
 			};
 		case ACTIONS.CANCEL:
+			localStorage.setItem('isFinished', 'false');
+
 			return {
 				...state,
 				isFinished: false,
 				status: GameStatus.DEFAULT,
 			};
 		case ACTIONS.RESET_GAME:
+			localStorage.setItem('hasStarted', 'false');
+			localStorage.setItem('isFinished', 'false');
+			localStorage.setItem(
+				'board',
+				JSON.stringify([
+					['', '', ''],
+					['', '', ''],
+					['', '', ''],
+				])
+			);
+			localStorage.setItem('currentStep', 'cross');
+			localStorage.setItem('firstPlayerMark', 'cross');
+			localStorage.setItem('secondPlayerMark', 'toe');
+			localStorage.setItem('gameMode', '');
+			localStorage.setItem(
+				'scores',
+				JSON.stringify({
+					firstPlayer: 0,
+					secondPlayer: 0,
+					tie: 0,
+				})
+			);
+
 			return {
 				...state,
 				hasStarted: false,
@@ -116,11 +170,40 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 				currentStep: 'cross',
 				firstPlayerMark: 'cross',
 				secondPlayerMark: 'toe',
+				gameMode: '',
 				scores: {
 					firstPlayer: 0,
 					secondPlayer: 0,
 					tie: 0,
 				},
+			};
+		case ACTIONS.UPDATE_DATA_FROM_LOCAL_STORAGE:
+			const {
+				board,
+				gameMode,
+				firstPlayerMark,
+				scores: localStorageScore,
+				hasStarted,
+				isFinished,
+				notification: localStorageNotification,
+				status: localStorageStatus,
+				currentStep,
+			} = action.payload;
+
+			return {
+				...state,
+				board: board,
+				gameMode: gameMode,
+				firstPlayerMark: firstPlayerMark,
+				secondPlayerMark: firstPlayerMark === 'cross' ? 'toe' : 'cross',
+				currentStep: currentStep,
+				scores: localStorageScore ? localStorageScore : state.scores,
+				hasStarted: hasStarted,
+				isFinished: isFinished,
+				notification: localStorageNotification
+					? localStorageNotification
+					: state.notification,
+				status: localStorageStatus ? localStorageStatus : state.status,
 			};
 		default:
 			return state;

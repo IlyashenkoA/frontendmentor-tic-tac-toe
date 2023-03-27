@@ -18,6 +18,13 @@ type GameResults = {
 		| GameStatus.RESTART_ROUND;
 };
 
+export type localStorageData = {
+	board: string[][];
+	gameMode: string;
+	firstPlayerMark: string;
+	scores: ScoresPayload;
+};
+
 export const startGame = (data: string) => {
 	return { type: ACTIONS.START_GAME, payload: data };
 };
@@ -48,4 +55,8 @@ export const cancelAction = () => {
 
 export const resetGame = () => {
 	return { type: ACTIONS.RESET_GAME };
+};
+
+export const updateDataFromLocalStorage = (data: localStorageData) => {
+	return { type: ACTIONS.UPDATE_DATA_FROM_LOCAL_STORAGE, payload: data };
 };
