@@ -192,14 +192,20 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 
 			return {
 				...state,
-				board: board,
+				board: board
+					? board
+					: [
+							['', '', ''],
+							['', '', ''],
+							['', '', ''],
+					  ],
 				gameMode: gameMode,
 				firstPlayerMark: firstPlayerMark,
 				secondPlayerMark: firstPlayerMark === 'cross' ? 'toe' : 'cross',
 				currentStep: currentStep,
 				scores: localStorageScore ? localStorageScore : state.scores,
-				hasStarted: hasStarted,
-				isFinished: isFinished,
+				hasStarted: hasStarted === 'true' ? true : false,
+				isFinished: isFinished === 'true' ? true : false,
 				notification: localStorageNotification
 					? localStorageNotification
 					: state.notification,

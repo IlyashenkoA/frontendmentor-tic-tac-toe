@@ -20,7 +20,7 @@ export const updateDataInLocalStorage = ({
 };
 
 export const getDataFromLocalStorage = () => {
-	if (localStorage.getItem('board')) {
+	if (localStorage.getItem('hasStarted')) {
 		return {
 			status: true,
 			data: {
@@ -29,8 +29,8 @@ export const getDataFromLocalStorage = () => {
 				firstPlayerMark: localStorage.getItem('firstPlayerMark'),
 				scores: JSON.parse(localStorage.getItem('scores')!),
 				currentStep: localStorage.getItem('currentStep'),
-				hasStarted: JSON.parse(localStorage.getItem('hasStarted')!),
-				isFinished: JSON.parse(localStorage.getItem('isFinished')!),
+				hasStarted: localStorage.getItem('hasStarted'),
+				isFinished: localStorage.getItem('isFinished'),
 				notification: JSON.parse(localStorage.getItem('notification')!),
 				status: localStorage.getItem('status'),
 			},
