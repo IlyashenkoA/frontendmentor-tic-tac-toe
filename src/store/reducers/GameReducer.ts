@@ -135,28 +135,7 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 				status: GameStatus.DEFAULT,
 			};
 		case ACTIONS.RESET_GAME:
-			localStorage.setItem('hasStarted', 'false');
-			localStorage.setItem('isFinished', 'false');
-			localStorage.setItem(
-				'board',
-				JSON.stringify([
-					['', '', ''],
-					['', '', ''],
-					['', '', ''],
-				])
-			);
-			localStorage.setItem('currentStep', 'cross');
-			localStorage.setItem('firstPlayerMark', 'cross');
-			localStorage.setItem('secondPlayerMark', 'toe');
-			localStorage.setItem('gameMode', '');
-			localStorage.setItem(
-				'scores',
-				JSON.stringify({
-					firstPlayer: 0,
-					secondPlayer: 0,
-					tie: 0,
-				})
-			);
+			localStorage.clear();
 
 			return {
 				...state,
