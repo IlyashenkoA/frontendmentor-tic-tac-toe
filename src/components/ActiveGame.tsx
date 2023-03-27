@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as Reset } from '../assets/icons/reset.svg';
-import { setGameResults } from '../store/action-creators/action-creators';
+import { Minimax } from '../minimax/Minimax';
+import { setGameResults, updateBoard } from '../store/action-creators/action-creators';
 import { RootState } from '../store/reducers';
 import { ScoresPayload } from '../store/reducers/GameReducer';
 import { GameStatus } from '../store/types';
@@ -15,7 +16,7 @@ import { ScoreIndicator } from './ScoreIndicator';
 const getWinner = (boardValue: string, scores: ScoresPayload, firstPlayerMark: string, gameMode: string) => {
   const data = {
     scores: scores,
-    result: {},
+    notification: {},
     status: GameStatus.DEFAULT
   };
 
@@ -24,13 +25,13 @@ const getWinner = (boardValue: string, scores: ScoresPayload, firstPlayerMark: s
     data.status = GameStatus.ROUND_WON;
 
     if (gameMode === 'singlePlayer') {
-      data.result = {
+      data.notification = {
         message: 'You won!',
         subtitle: 'Takes the round',
         icon: firstPlayerMark,
       };
     } else {
-      data.result = {
+      data.notification = {
         message: 'Player 1 Wins!',
         subtitle: 'Takes the round',
         icon: firstPlayerMark,
@@ -45,14 +46,14 @@ const getWinner = (boardValue: string, scores: ScoresPayload, firstPlayerMark: s
     data.status = GameStatus.ROUND_LOST;
 
     if (gameMode === 'singlePlayer') {
-      data.result = {
+      data.notification = {
         message: 'Oh no, you lost...',
         subtitle: 'Takes the round',
         icon: firstPlayerMark === 'cross' ? 'toe' : 'cross',
 
       };
     } else {
-      data.result = {
+      data.notification = {
         message: 'Player 2 Wins!',
         subtitle: 'Takes the round',
         icon: firstPlayerMark === 'cross' ? 'toe' : 'cross',
@@ -65,72 +66,106 @@ const getWinner = (boardValue: string, scores: ScoresPayload, firstPlayerMark: s
   return data;
 };
 
-export const ActiveGame = () => {
-  const board = useSelector((state: RootState) => state.GameReducer.board);
-  const gameMode = useSelector((state: RootState) => state.GameReducer.gameMode);
-  const firstPlayerMark = useSelector((state: RootState) => state.GameReducer.firstPlayerMark);
-  const secondPlayerMark = useSelector((state: RootState) => state.GameReducer.secondPlayerMark);
-  const scores = useSelector((state: RootState) => state.GameReducer.scores);
+const isVictory = (board: string[][], scores: ScoresPayload, firstPlayerMark: string, gameMode: string) => {
+  const combinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
 
+  const flatBoard = board.flat();
+
+  for (let comb of combinations) {
+    if (
+      flatBoard[comb[0]] === flatBoard[comb[1]]
+      && flatBoard[comb[1]] === flatBoard[comb[2]]
+      && flatBoard[comb[0]] !== ''
+    ) {
+      const result = getWinner(flatBoard[comb[0]], scores, firstPlayerMark, gameMode);
+
+      return { status: true, result };
+    }
+  }
+
+  return {
+    status: false,
+    result: {
+      scores,
+      notification: {
+        message: '',
+        subtitle: '',
+        icon: null,
+      },
+      status: GameStatus.DEFAULT
+    }
+  };
+};
+
+const isTie = (board: string[][], scores: ScoresPayload, firstPlayerMark: string, gameMode: string) => {
+  let emptyValue = 0;
+  const flatBoard = board.flat();
+
+  flatBoard.forEach(item => {
+    if (item === '') emptyValue++;
+  });
+
+  const { status } = isVictory(board, scores, firstPlayerMark, gameMode);
+
+  if (emptyValue === 0 && !status) return true;
+
+  return false;
+};
+
+export const ActiveGame = () => {
+  const {
+    board,
+    gameMode,
+    firstPlayerMark,
+    secondPlayerMark,
+    scores,
+    currentStep
+  } = useSelector((state: RootState) => state.GameReducer);
+  const [minimax] = useState(() => new Minimax(board, firstPlayerMark, secondPlayerMark));
   const dispatch = useDispatch();
 
   useEffect(() => {
-    isVictory(board);
-    isTie(board, scores);
-  }, [board]);
-
-  const isVictory = (board: string[][]) => {
-    const combinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
-    ];
-
-    const flatBoard = board.flat();
-
-    for (let comb of combinations) {
-      if (
-        flatBoard[comb[0]] === flatBoard[comb[1]]
-        && flatBoard[comb[1]] === flatBoard[comb[2]]
-        && flatBoard[comb[0]] !== ''
-      ) {
-        const result = getWinner(flatBoard[comb[0]], scores, firstPlayerMark, gameMode);
-
-        dispatch(setGameResults(result));
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  const isTie = (board: string[][], scores: ScoresPayload) => {
-    let emptyValue = 0;
-    const flatBoard = board.flat();
-    const result = {
-      scores,
-      result: {
-        message: '',
-        subtitle: 'Round Tied',
-        icon: null,
-      },
-      status: GameStatus.ROUND_TIED
-    };
-
-    flatBoard.forEach(item => {
-      if (item === '') emptyValue++;
-    });
-
-    if (emptyValue === 0 && !isVictory(board)) {
-      result.scores.tie++;
+    const { status, result } = isVictory(board, scores, firstPlayerMark, gameMode);
+    if (status) {
       dispatch(setGameResults(result));
+
+    } else if (isTie(board, scores, firstPlayerMark, gameMode)) {
+      const data = {
+        scores,
+        notification: {
+          message: '',
+          subtitle: 'Round Tied',
+          icon: null,
+        },
+        status: GameStatus.ROUND_TIED
+      };
+
+      data.scores.tie++;
+      dispatch(setGameResults(data));
+
+    } else if ((gameMode === 'singlePlayer' && currentStep === secondPlayerMark)
+      && (!status && !isTie(board, scores, firstPlayerMark, gameMode))) {
+      const promise = new Promise<any>(resolve => {
+        setTimeout(() => {
+          resolve(minimax.findBestMove(board));
+        }, 200);
+      });
+
+      promise.then(result => {
+        dispatch(updateBoard({ row: result.row, col: result.col, value: currentStep }));
+      });
     }
-  };
+
+  }, [board]);
 
   return (
     <div className="w-full flex flex-col gap-y-5">
@@ -145,7 +180,7 @@ export const ActiveGame = () => {
           styles='h-10 w-10 grid place-items-center rounded'
           onClick={() => {
             const data = {
-              result: {
+              notification: {
                 message: '',
                 subtitle: 'Restart Game?',
                 icon: null

@@ -1,6 +1,7 @@
+import { Reducer } from 'redux';
 import { ACTIONS, GameStatus } from '../types';
 
-const initialState = {
+const initialState: InitialState = {
 	board: [
 		['', '', ''],
 		['', '', ''],
@@ -17,9 +18,31 @@ const initialState = {
 		secondPlayer: 0,
 		tie: 0,
 	},
-	result: {},
+	notification: {
+		message: '',
+		subtitle: '',
+		icon: null,
+	},
 	status: GameStatus.DEFAULT,
 };
+
+export interface InitialState {
+	board: string[][];
+	hasStarted: boolean;
+	isFinished: boolean;
+	gameMode: 'singlePlayer' | 'multiPlayer' | '';
+	firstPlayerMark: 'cross' | 'toe';
+	secondPlayerMark: 'cross' | 'toe';
+	currentStep: 'cross' | 'toe';
+	scores: ScoresPayload;
+	notification: NotificationData;
+	status:
+		| GameStatus.DEFAULT
+		| GameStatus.RESTART_ROUND
+		| GameStatus.ROUND_LOST
+		| GameStatus.ROUND_WON
+		| GameStatus.ROUND_TIED;
+}
 
 type GameAction = {
 	type: string;
@@ -32,7 +55,16 @@ export type ScoresPayload = {
 	tie: number;
 };
 
-export const GameReducer = (state = initialState, action: GameAction) => {
+export type NotificationData = {
+	message: string;
+	subtitle: string;
+	icon: string | null;
+};
+
+export const GameReducer: Reducer<InitialState, GameAction> = (
+	state = initialState,
+	action: GameAction
+) => {
 	switch (action.type) {
 		case ACTIONS.START_GAME:
 			return {
@@ -67,13 +99,13 @@ export const GameReducer = (state = initialState, action: GameAction) => {
 				...state,
 			};
 		case ACTIONS.SET_GAME_RESULTS:
-			const { scores, result, status } = action.payload;
+			const { scores, notification, status } = action.payload;
 
 			return {
 				...state,
 				isFinished: true,
 				scores: scores ? scores : state.scores,
-				result: result,
+				notification: notification,
 				status: status,
 			};
 		case ACTIONS.NEXT_ROUND:

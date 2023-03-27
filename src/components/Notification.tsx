@@ -7,9 +7,7 @@ import { Cross } from "./Icons/Cross";
 import { Toe } from "./Icons/Toe";
 
 export const Notification = () => {
-  const result = useSelector((state: RootState) => state.GameReducer.result);
-  const status = useSelector((state: RootState) => state.GameReducer.status);
-
+  const { notification, status } = useSelector((state: RootState) => state.GameReducer);
   const dispatch = useDispatch();
 
   return (
@@ -17,17 +15,17 @@ export const Notification = () => {
       <div className="absolute top-0 left-0 w-full h-full bg-[#000000] opacity-50 z-1"></div>
       <div className="absolute top-2/4 left-0 translate-y-[-50%] w-full bg-semiDarkNavy py-11 z-2 grid place-items-center">
         <p className="uppercase text-base text-silver pb-4">
-          {result?.message}
+          {notification?.message}
         </p>
-        {result?.subtitle.length > 0
+        {notification?.subtitle.length > 0
           ? <h1 className="inline-flex items-center gap-x-6 pb-6">
-            {result?.icon === 'cross'
+            {notification?.icon === 'cross'
               ? <Cross svgClassName="w-16 h-16" />
-              : result.icon === 'toe'
+              : notification.icon === 'toe'
                 ? <Toe svgClassName="w-16 h-16" />
                 : null}
-            <p className={`text-4xl uppercase font-bold ${result.icon === 'cross' ? 'text-lightBlue' : result.icon === 'toe' ? 'text-lightYellow' : 'text-silver'}`}>
-              {result?.subtitle}
+            <p className={`text-4xl uppercase font-bold ${notification.icon === 'cross' ? 'text-lightBlue' : notification.icon === 'toe' ? 'text-lightYellow' : 'text-silver'}`}>
+              {notification?.subtitle}
             </p>
           </h1>
           : null}

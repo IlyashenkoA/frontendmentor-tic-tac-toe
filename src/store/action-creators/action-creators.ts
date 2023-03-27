@@ -9,7 +9,7 @@ type UpdateBoardPayload = {
 
 type GameResults = {
 	scores?: ScoresPayload;
-	result: Object;
+	notification: Object;
 	status:
 		| GameStatus.DEFAULT
 		| GameStatus.ROUND_LOST

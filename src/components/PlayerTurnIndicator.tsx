@@ -4,7 +4,7 @@ import { Cross } from "./Icons/Cross";
 import { Toe } from "./Icons/Toe";
 
 export const PlayerTurnIndicator = () => {
-  const currentStep = useSelector((state: RootState) => state.GameReducer.currentStep);
+  const { currentStep } = useSelector((state: RootState) => state.GameReducer);
 
   return (
     <div className="flex flex-row items-center gap-x-2 bg-semiDarkNavy shadow-[inset_0_-4px_0_#10212A] rounded px-4 pt-2 pb-3">

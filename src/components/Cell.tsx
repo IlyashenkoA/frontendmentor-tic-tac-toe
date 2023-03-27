@@ -15,7 +15,7 @@ interface ICell {
 }
 
 export const Cell: React.FC<ICell> = memo(({ icon, row, col }) => {
-  const currentStep = useSelector((state: RootState) => state.GameReducer.currentStep);
+  const { currentStep, firstPlayerMark } = useSelector((state: RootState) => state.GameReducer);
   const dispatch = useDispatch();
   const [isHover, setIsHover] = useState<boolean>(false);
 
