@@ -1,4 +1,5 @@
-import { useDispatch } from 'react-redux/es/hooks/useDispatch';
+import { useDispatch } from 'react-redux';
+
 import { startGame } from '../store/action-creators/action-creators';
 import { Button } from './Button';
 import { Cross } from './Icons/Cross';

@@ -1,5 +1,5 @@
-import { ScoresPayload } from '../reducers/GameReducer';
 import { ACTIONS, GameStatus } from '../types';
+import { ScoresPayload } from '../types/IGame';
 
 type UpdateBoardPayload = {
 	row: number;

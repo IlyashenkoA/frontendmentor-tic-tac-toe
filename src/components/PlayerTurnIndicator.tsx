@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux/";
+
 import { RootState } from "../store/reducers";
 import { Cross } from "./Icons/Cross";
 import { Toe } from "./Icons/Toe";

@@ -1,6 +1,5 @@
 import { memo, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch, useSelector } from "react-redux";
 import { updateBoard } from "../store/action-creators/action-creators";
 import { RootState } from "../store/reducers";
 import { Cross } from "./Icons/Cross";
@@ -15,7 +14,7 @@ interface ICell {
 }
 
 export const Cell: React.FC<ICell> = memo(({ icon, row, col }) => {
-  const { currentStep, firstPlayerMark } = useSelector((state: RootState) => state.GameReducer);
+  const { currentStep } = useSelector((state: RootState) => state.GameReducer);
   const dispatch = useDispatch();
   const [isHover, setIsHover] = useState<boolean>(false);
 

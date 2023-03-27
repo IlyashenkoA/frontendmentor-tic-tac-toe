@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux/es/hooks/useDispatch';
+import { useDispatch } from 'react-redux';
+
 import { setFirstPlayerMark } from '../store/action-creators/action-creators';
 import { Cross } from './Icons/Cross';
 import { Toe } from './Icons/Toe';

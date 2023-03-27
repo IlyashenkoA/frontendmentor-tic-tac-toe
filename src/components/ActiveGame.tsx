@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { ReactComponent as Reset } from '../assets/icons/reset.svg';
 import { Minimax } from '../minimax/Minimax';
 import { setGameResults, updateBoard } from '../store/action-creators/action-creators';
 import { RootState } from '../store/reducers';
-import { ScoresPayload } from '../store/reducers/GameReducer';
 import { GameStatus } from '../store/types';
+import { ScoresPayload } from '../store/types/IGame';
 import { Button } from './Button';
 import { Cell } from './Cell';
 import { Cross } from "./Icons/Cross";
