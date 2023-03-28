@@ -19,13 +19,13 @@ export const Notification = () => {
           {notification?.message}
         </p>
         {notification?.subtitle.length > 0
-          ? <h1 className="inline-flex items-center gap-x-6 pb-6">
+          ? <h1 className="inline-flex items-center gap-x-2 md:gap-x-6 pb-6">
             {notification?.icon === 'cross'
-              ? <Cross svgClassName="w-16 h-16" />
+              ? <Cross svgClassName="w-7 h-7 md:w-16 md:h-16" />
               : notification.icon === 'toe'
-                ? <Toe svgClassName="w-16 h-16" />
+                ? <Toe svgClassName="w-7 h-7 md:w-16 md:h-16" />
                 : null}
-            <p className={`text-4xl uppercase font-bold ${notification.icon === 'cross' ? 'text-lightBlue' : notification.icon === 'toe' ? 'text-lightYellow' : 'text-silver'}`}>
+            <p className={`text-2xl md:text-4xl uppercase font-bold ${notification.icon === 'cross' ? 'text-lightBlue' : notification.icon === 'toe' ? 'text-lightYellow' : 'text-silver'}`}>
               {notification?.subtitle}
             </p>
           </h1>
