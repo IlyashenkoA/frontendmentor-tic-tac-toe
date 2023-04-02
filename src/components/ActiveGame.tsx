@@ -132,7 +132,7 @@ export const ActiveGame = () => {
     currentStep,
     isFinished
   } = useSelector((state: RootState) => state.GameReducer);
-  const [minimax] = useState(() => new Minimax(board, firstPlayerMark, secondPlayerMark));
+  const [minimax] = useState(() => new Minimax(firstPlayerMark, secondPlayerMark));
   const dispatch = useDispatch();
 
   useEffect(() => {

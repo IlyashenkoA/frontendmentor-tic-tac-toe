@@ -116,6 +116,8 @@ export const GameReducer: Reducer<InitialState, GameAction> = (
 				currentStep: 'cross',
 			};
 		case ACTIONS.RESET_ROUND:
+			localStorage.clear();
+
 			return {
 				...state,
 				board: [

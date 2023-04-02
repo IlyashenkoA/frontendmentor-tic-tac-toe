@@ -1,12 +1,10 @@
 export class Minimax {
-	board: string[][];
 	player: string;
 	opponent: string;
 	MAX: number;
 	MIN: number;
 
-	constructor(board: string[][], playerMark: string, opponentMark: string) {
-		this.board = board;
+	constructor(playerMark: string, opponentMark: string) {
 		this.player = playerMark;
 		this.opponent = opponentMark;
 		this.MAX = Infinity;
@@ -47,8 +45,8 @@ export class Minimax {
 				flatBoard[comb[0]] === flatBoard[comb[1]] &&
 				flatBoard[comb[1]] === flatBoard[comb[2]]
 			) {
-				if (flatBoard[comb[0]] === this.player) return WIN_SCORE;
-				else if (flatBoard[comb[0]] === this.opponent) return LOSE_SCORE;
+				if (flatBoard[comb[0]] === this.player) return LOSE_SCORE;
+				else if (flatBoard[comb[0]] === this.opponent) return WIN_SCORE;
 			}
 		}
 
@@ -89,7 +87,7 @@ export class Minimax {
 					// Check if cell is empty
 					if (board[i][j] === '') {
 						// Make the move
-						board[i][j] = this.player;
+						board[i][j] = this.opponent;
 
 						// Call minimax recursively
 						// and choose the maximum value
@@ -97,12 +95,12 @@ export class Minimax {
 							best,
 							this.minimax(board, depth + 1, !isMax, alpha, beta)
 						);
-						alpha = Math.max(alpha, best);
+						// alpha = Math.max(alpha, best);
 
 						// Undo the move
 						board[i][j] = '';
 
-						if (beta <= alpha) break;
+						// if (beta <= alpha) break;
 					}
 				}
 			}
@@ -119,7 +117,7 @@ export class Minimax {
 					// Check if cell is empty
 					if (board[i][j] === '') {
 						// Make the move
-						board[i][j] = this.opponent;
+						board[i][j] = this.player;
 
 						// Call minimax recursively and
 						// choose the minimum value
@@ -127,12 +125,12 @@ export class Minimax {
 							best,
 							this.minimax(board, depth + 1, !isMax, alpha, beta)
 						);
-						beta = Math.min(beta, best);
+						// beta = Math.min(beta, best);
 
 						// Undo the move
 						board[i][j] = '';
 
-						if (beta <= alpha) break;
+						// if (beta <= alpha) break;
 					}
 				}
 			}
@@ -153,14 +151,15 @@ export class Minimax {
 				// Check if cell is empty
 				if (value === '') {
 					// Make the move
-					value = this.player;
+					value = this.opponent;
+					board[rowIndex][colIndex] = this.opponent;
 
 					// compute evaluation function
 					// for this move.
 					let moveVal = this.minimax(board, 0, false, this.MIN, this.MAX);
 
 					// Undo the move
-					value = '';
+					board[rowIndex][colIndex] = '';
 
 					// If the value of the current move
 					// is more than the best value, then
