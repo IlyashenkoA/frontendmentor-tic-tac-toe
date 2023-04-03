@@ -8,7 +8,8 @@ import { RootState } from "./store/reducers";
 import { getDataFromLocalStorage } from "./utils/localStorage";
 
 export const TicTacToe = () => {
-  const { hasStarted, isFinished } = useSelector((state: RootState) => state.GameReducer);
+  const hasStarted = useSelector((state: RootState) => state.GameReducer.hasStarted);
+  const isFinished = useSelector((state: RootState) => state.GameReducer.isFinished);
   const dispatch = useDispatch();
 
   useEffect(() => {

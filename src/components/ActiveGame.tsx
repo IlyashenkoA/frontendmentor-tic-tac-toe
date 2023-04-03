@@ -208,44 +208,57 @@ export const ActiveGame = () => {
         })}
       </div>
       <div className="inline-flex gap-x-5 justify-between">
-        <ScoreIndicator styles='bg-lightBlue w-24 md:w-36 rounded-2xl py-3 grid place-items-center'>
-          <p className='text-darkNavy font-medium text-sm'>
-            X {gameMode === 'singlePlayer'
-              ? firstPlayerMark === 'cross'
-                ? '(YOU)'
-                : '(CPU)'
-              : firstPlayerMark === 'cross'
-                ? '(P1)'
-                : '(P2)'}
-          </p>
-          <span className='text-2xl text-darkNavy font-bold'>
-            {firstPlayerMark === 'cross'
-              ? scores.firstPlayer
-              : scores.secondPlayer}
-          </span>
-        </ScoreIndicator>
-        <ScoreIndicator styles='bg-silver w-24 md:w-36 rounded-2xl py-3 grid place-items-center'>
-          <p className='text-darkNavy font-medium text-sm'>TIES</p>
-          <span className='text-2xl text-darkNavy font-bold'>
-            {scores.tie}
-          </span>
-        </ScoreIndicator>
-        <ScoreIndicator styles='bg-lightYellow w-24 md:w-36 rounded-2xl py-3 grid place-items-center'>
-          <p className='text-darkNavy font-medium text-sm'>
-            O {gameMode === 'singlePlayer'
-              ? secondPlayerMark === 'cross'
-                ? '(YOU)'
-                : '(CPU)'
-              : secondPlayerMark === 'cross'
-                ? '(P1)'
-                : '(P2)'}
-          </p>
-          <span className='text-2xl text-darkNavy font-bold'>
-            {secondPlayerMark === 'cross'
-              ? scores.firstPlayer
-              : scores.secondPlayer}
-          </span>
-        </ScoreIndicator>
+        <ScoreIndicator
+          styles='bg-lightBlue w-24 md:w-36 rounded-2xl py-3 grid place-items-center'
+          render={({ scores, gameMode, firstPlayerMark }) => (
+            <>
+              <p className='text-darkNavy font-medium text-sm'>
+                X {gameMode === 'singlePlayer'
+                  ? firstPlayerMark === 'cross'
+                    ? '(YOU)'
+                    : '(CPU)'
+                  : firstPlayerMark === 'cross'
+                    ? '(P1)'
+                    : '(P2)'}
+              </p>
+              <span className='text-2xl text-darkNavy font-bold'>
+                {firstPlayerMark === 'cross'
+                  ? scores.firstPlayer
+                  : scores.secondPlayer}
+              </span>
+            </>
+          )} />
+        <ScoreIndicator
+          styles='bg-silver w-24 md:w-36 rounded-2xl py-3 grid place-items-center'
+          render={({ scores }) => (
+            <>
+              <p className='text-darkNavy font-medium text-sm'>TIES</p>
+              <span className='text-2xl text-darkNavy font-bold'>
+                {scores.tie}
+              </span>
+            </>
+          )} />
+        <ScoreIndicator
+          styles='bg-lightYellow w-24 md:w-36 rounded-2xl py-3 grid place-items-center'
+          render={({ scores, gameMode, secondPlayerMark }) => (
+            <>
+              <p className='text-darkNavy font-medium text-sm'>
+                O {gameMode === 'singlePlayer'
+                  ? secondPlayerMark === 'cross'
+                    ? '(YOU)'
+                    : '(CPU)'
+                  : secondPlayerMark === 'cross'
+                    ? '(P1)'
+                    : '(P2)'}
+              </p>
+              <span className='text-2xl text-darkNavy font-bold'>
+                {secondPlayerMark === 'cross'
+                  ? scores.firstPlayer
+                  : scores.secondPlayer}
+              </span>
+            </>
+          )}
+        />
       </div>
     </div>
   );
