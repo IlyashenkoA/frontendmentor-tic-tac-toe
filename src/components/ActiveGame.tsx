@@ -173,15 +173,15 @@ export const ActiveGame = () => {
 
   return (
     <div className="w-full flex flex-col gap-y-5">
-      <div className="flex flex-row justify-between items-center  pb-11 md:pb-0">
-        <div className="flex flex-row gap-x-2">
+      <div className="grid grid-cols-3 place-items-center justify-between items-center  pb-11 md:pb-0">
+        <div className="flex flex-row gap-x-2 justify-self-start">
           <Cross />
           <Toe />
         </div>
         <PlayerTurnIndicator />
         <Button
           color='silver'
-          styles='h-10 w-10 grid place-items-center rounded'
+          styles='h-10 w-10 grid place-items-center rounded justify-self-end'
           onClick={() => {
             const data = {
               notification: {
