@@ -95,12 +95,12 @@ export class Minimax {
 							best,
 							this.minimax(board, depth + 1, !isMax, alpha, beta)
 						);
-						// alpha = Math.max(alpha, best);
+						alpha = Math.max(alpha, best);
 
 						// Undo the move
 						board[i][j] = '';
 
-						// if (beta <= alpha) break;
+						if (beta <= alpha) break;
 					}
 				}
 			}
@@ -125,12 +125,12 @@ export class Minimax {
 							best,
 							this.minimax(board, depth + 1, !isMax, alpha, beta)
 						);
-						// beta = Math.min(beta, best);
+						beta = Math.min(beta, best);
 
 						// Undo the move
 						board[i][j] = '';
 
-						// if (beta <= alpha) break;
+						if (beta <= alpha) break;
 					}
 				}
 			}
