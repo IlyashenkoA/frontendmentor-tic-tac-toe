@@ -10,7 +10,7 @@
     Frontend Mentor challenge task - Tic Tac Toe game with a Minimax algorithm
     <br/>
     <br/>
-    <a href="https://github.com/ShaanCoding/ReadME-Generator">View Demo</a>
+    <a href="https://frontendmentor-tic-tac-toe.vercel.app/">View Demo</a>
   </p>
 </p>
 
