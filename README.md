@@ -1,46 +1,56 @@
-# Getting Started with Create React App
+<br/>
+<p align="center">
+  <a href="https://github.com/IlyashenkoA/frontendmentor-tic-tac-toe/">
+    <img src="https://i.ibb.co/NtTNSVh/Group-2.png" alt="Logo" />
+  </a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3 align="center">Frontend Mentor - Tic Tac Toe</h3>
 
-## Available Scripts
+  <p align="center">
+    Frontend Mentor challenge task - Tic Tac Toe game with a Minimax algorithm
+    <br/>
+    <br/>
+    <a href="https://github.com/ShaanCoding/ReadME-Generator">View Demo</a>
+  </p>
+</p>
 
-In the project directory, you can run:
+## About The Project
 
-### `npm start`
+Tic Tac Toe is a game in which you can play alone against the Minimax algorithm or together on the same device. If the game has not been completed and closed, it will always be possible to return to it, since the data is stored in localStorage.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br />
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<img src="https://i.ibb.co/4Pm27bY/2023-03-28-183702.png" />
 
-### `npm test`
+<br />
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<img src="https://i.ibb.co/7v3r8kN/2023-05-08-094306.png" />
 
-### `npm run build`
+## Built With
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* React
+* Redux
+* TypeScript
+* Tailwind CSS
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repository
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+git clone https://github.com/IlyashenkoA/frontendmentor-tic-tac-toe
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Install all packages
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+npm install
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+3. Run the project
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+npm start
+```  
