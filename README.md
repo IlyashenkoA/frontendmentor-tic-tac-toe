@@ -40,7 +40,7 @@ Tic Tac Toe is a game in which you can play alone against the Minimax algorithm 
 1. Clone the repository
 
 ```
-git clone https://github.com/IlyashenkoA/frontendmentor-tic-tac-toe
+git clone https://github.com/IlyashenkoA/frontendmentor-tic-tac-toe.git
 ```
 
 2. Install all packages
