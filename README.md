@@ -7,9 +7,6 @@
   <h3 align="center">Frontend Mentor - Tic Tac Toe</h3>
 
   <p align="center">
-    Frontend Mentor challenge task - Tic Tac Toe game with a Minimax algorithm
-    <br/>
-    <br/>
     <a href="https://frontendmentor-tic-tac-toe.vercel.app/">View Demo</a>
   </p>
 </p>
